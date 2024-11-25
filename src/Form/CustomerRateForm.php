@@ -10,6 +10,8 @@
 namespace App\Form;
 
 use App\Entity\CustomerRate;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -29,6 +31,12 @@ class CustomerRateForm extends AbstractRateForm
         }
 
         $this->addFields($builder, $currency);
+
+        $builder->add('rateMultiplier', NumberType::class, [
+            'label' => 'Faktor',
+            'required' => false,
+            'data' => 1.0,
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -13,6 +13,7 @@ use App\Entity\RateInterface;
 use App\Entity\Timesheet;
 use App\Entity\UserPreference;
 use App\Repository\TimesheetRepository;
+use App\Entity\CustomerRate;
 
 /**
  * Implementation to calculate the rate for a timesheet record.
@@ -81,6 +82,11 @@ final class RateService implements RateServiceInterface
         if (null !== $record->getDuration()) {
             $totalRate = Util::calculateRate($factoredHourlyRate, $record->getDuration());
             $totalInternalRate = Util::calculateRate($factoredInternalRate, $record->getDuration());
+        }
+
+        $customerRate = $record->getCustomerRate();
+        if ($customerRate !== null && $customerRate->getRateMultiplier() !== null) {
+            $totalRate *= $customerRate->getRateMultiplier();
         }
 
         return new Rate($totalRate, $totalInternalRate, $factoredHourlyRate, null);

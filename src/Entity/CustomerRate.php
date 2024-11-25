@@ -29,6 +29,9 @@ class CustomerRate implements RateInterface
     #[Assert\NotNull]
     private ?Customer $customer = null;
 
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $rateMultiplier = 1.0;
+
     public function setCustomer(?Customer $customer): CustomerRate
     {
         $this->customer = $customer;
@@ -44,5 +47,16 @@ class CustomerRate implements RateInterface
     public function getScore(): int
     {
         return 1;
+    }
+
+    public function getRateMultiplier(): float
+    {
+        return $this->rateMultiplier;
+    }
+
+    public function setRateMultiplier(float $rateMultiplier): self
+    {
+        $this->rateMultiplier = $rateMultiplier;
+        return $this;
     }
 }
